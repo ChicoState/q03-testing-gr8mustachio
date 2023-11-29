@@ -18,3 +18,23 @@ TEST(GuesserTest, smoke_test)
 {
     ASSERT_TRUE( 1 == 1 );
 }
+
+TEST(GuesserTest, distance_test) {
+	Guesser guess("Abb");
+
+
+}
+
+TEST(GuesserTest, happy_match_test) {
+	Guesser guess("Hel");
+	bool isMatch = guess.match("Hel");
+	ASSERT_EQ(true, isMatch);
+
+}
+
+TEST(GuesserTest, sad_match_test){
+	Guesser guess("Hello");
+	bool isMatch = guess.match("wnefjlwbefj");
+	ASSERT_EQ(true, isMatch);
+
+}

@@ -1,8 +1,8 @@
 #include "Guesser.h"
 #include <string>
-
+#include <cstdlib>
 using std::string;
-
+using namespace std;
 /*
   Returns an whole number representing the distance between the guess,
   provided as an argument, and the secret. The distance represents the number
@@ -13,7 +13,20 @@ using std::string;
   string also counts as an increase in 1 to the distance.
 */
 unsigned int Guesser::distance(string guess){
-  return 0;
+  int size;
+  int distance = 0;
+  if(guess.length() <= m_secret.length())
+    size = guess.length();
+  else
+    size = m_secret.length();
+  int diff = guess.length() - m_secret.length();
+  distance += abs(diff);
+  for(int i = 0; i < size; i++) {
+    if(m_secret[i] != guess[i]) {
+      distance += 1;
+    }
+  }
+  return distance;
 }
 
 /*
@@ -22,7 +35,7 @@ unsigned int Guesser::distance(string guess){
   of any Guesser object.
 */
 Guesser::Guesser(string secret){
-
+  m_secret = secret;
 }
 
 /*
@@ -37,7 +50,24 @@ Guesser::Guesser(string secret){
   and the secret.
 */
 bool Guesser::match(string guess){
-  return true;
+  if(locked)
+    return false;
+  if(distance(guess) == 0) {
+    m_remaining = 3;
+    return true;
+  }
+  else if(distance(guess) > 2) {
+    locked = true;
+    return false;
+  }
+  else {
+    if(remaining() == 0) {
+      locked = true;
+      return false;
+    }
+    m_remaining -=1;
+  }
+  return false;
 }
 
 /*
@@ -48,6 +78,6 @@ bool Guesser::match(string guess){
   reset to three (3).
 */
 unsigned int Guesser::remaining(){
-  return 0;
+  return m_remaining;
 }
 
